@@ -72,10 +72,11 @@ public class StatsCommand extends PKCommand {
 			return;
 		}
 		if (containsGet) {
-			Player target = null;
+			OfflinePlayer target;
 			if (args.size() == 4) {
-				target = ProjectKorra.plugin.getServer().getPlayer(args.get(3));
-				if (target == null) {
+				target = ProjectKorra.plugin.getServer().getOfflinePlayer(args.get(3));
+
+				if (!target.hasPlayedBefore() && !target.isOnline()) {
 					GeneralMethods.sendBrandingMessage(sender, this.invalidPlayer.replace("%player%", args.get(3)));
 					return;
 				}
@@ -116,7 +117,7 @@ public class StatsCommand extends PKCommand {
 		return false;
 	}
 
-	public String getTarget(final Object object, final Statistic statistic, final Player target) {
+	public String getTarget(final Object object, final Statistic statistic, final OfflinePlayer target) {
 		String message = "&8- &f%object% " + statistic.getDisplayName() + " &e%player%: " + "&f%value%";
 		long value = 0;
 		if (object == null) {
